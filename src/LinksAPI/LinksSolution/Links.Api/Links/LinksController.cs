@@ -12,8 +12,39 @@ public class LinksController : ControllerBase
     // "Flag - a "Marker" on this method, that the API will read and know this is where
     // POSTs to "/links" should be directed.
     [HttpPost("/links")]
-    public async Task<ActionResult> AddALink()
+    public async Task<ActionResult> AddALink(
+        [FromBody] CreateLinkRequest request)
     {
-        return Ok();
+        var response = new CreateLinkResponse
+        {
+            Id = Guid.NewGuid(),
+            Href = request.Href,
+            Description = request.Description,
+            AddedBy = "joe@aol.com",
+            Created = DateTimeOffset.Now
+        };
+        return Ok(response);
     }
+}
+
+//{
+//  "href": "https://typescriptlang.org",
+//  "description": "The Typescript Website"
+//}
+// "DTO" - "Data Transfer Object"
+
+public record CreateLinkRequest
+{
+    public string Href { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+}
+
+public record CreateLinkResponse
+{
+    // uuid 
+    public Guid Id { get; set; }
+    public string Href { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public string AddedBy { get; set; } = string.Empty;
+    public DateTimeOffset Created { get; set; }
 }

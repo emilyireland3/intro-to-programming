@@ -27,4 +27,8 @@ app.MapControllers(); // Create a "phone book" of possible things this API can e
 app.Run(); // This is where our API will be up and running, listening for requests.
 // This is basically a while(true) {...} loop that will run "forever"
 
+// I want to make this "Program" class visible to my tests. Buy you are not allowed
+// to ask me any questions about this YET.
+public partial class Program;
+
 
