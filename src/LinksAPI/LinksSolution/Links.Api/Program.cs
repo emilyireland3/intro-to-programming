@@ -1,8 +1,16 @@
 // This is compiling to an INTERNAL class called Program without a Namespace, and it has a method called "Main"
+using Marten;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+var connectionString = builder.Configuration.GetConnectionString("links")
+    ?? throw new Exception("You Need a Connection String!");
+builder.Services.AddMarten(config =>
+{
+    config.Connection(connectionString);
+});
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
