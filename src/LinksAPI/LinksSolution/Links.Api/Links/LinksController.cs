@@ -23,21 +23,39 @@ public class LinksController : ControllerBase
             AddedBy = "joe@aol.com",
             Created = DateTimeOffset.Now
         };
-        return Ok(response);
+        return Created($"/links/{response.Id}", response);
+    }
+
+    // If we get a GET request to /links/{guid} THEN create this controller and run this method, if isn't, don't bother me, just return 404
+    [HttpGet("/links/{postId:guid}")]
+    public async Task<ActionResult> GetLinkById(Guid postId)
+    {
+       
+        return Ok(postId);
     }
 }
 
-//{
-//  "href": "https://typescriptlang.org",
-//  "description": "The Typescript Website"
-//}
+/*{
+  "href": "https://typescriptlang.org",
+  "description": "The TypeScript Website"
+}*/
 // "DTO" - "Data Transfer Object"
 
 public record CreateLinkRequest
 {
     public string Href { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
+
 }
+
+/*{
+  "id": "38983989839839839893",
+  "href": "https://typescriptlang.org",
+  "description": "The TypeScript Website",
+  "addedBy": "jeff@hypertheory.com",
+  "created": "some datetime"
+}*/
+
 
 public record CreateLinkResponse
 {
