@@ -12,8 +12,8 @@ Content-Type: application/json
 Authorization: bearer 39378973973973
 
 {
-  "href": "https://allstate.com",
-  "description": "Good insurance. Great Developers"
+  "href": "https://hub.docker.com",
+  "description": "Docker Container Registry"
 }
 ```
 
@@ -33,7 +33,7 @@ Location: /links/38983989839839839893
 ```
 
 ```http
-GET http://localhost:1337/links/d8cc2597-16c8-4ff0-8cb3-caf22eba9339
+GET http://localhost:1337/links/b7523ca1-eccb-4920-983a-fb4708da8875
 ```
 
 

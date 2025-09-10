@@ -1,23 +1,24 @@
 ﻿
+
 using Banking.Domain;
 
-namespace Banking.tests.NewAccount;
+namespace Banking.Tests.NewAccounts;
 public class HaveCorrectBalance
 {
     [Fact]
     public void CorrectBalanceForNewAccounts()
     {
-        // WTCYWHYH - WRITE THE CODE YOU WISH YOU HAD
+        // WTCYWYH - WRITE THE CODE YOU WISH YOU HAD.
         // Given I have a new bank account
         var account = new BankAccount();
-        //var x = account.balance;
-        
 
         // When I ask that account for the balance
         decimal balance = account.GetBalance();
 
-        // Then it should be...
+        // Then it should be ... 
 
         Assert.Equal(5000M, balance);
+
+
     }
 }
