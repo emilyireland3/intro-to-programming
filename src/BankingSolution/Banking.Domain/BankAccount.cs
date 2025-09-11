@@ -11,22 +11,30 @@ public class BankAccount
     private decimal balance = 5000M; // Fields (class-level variables, instance variables)
     public void Deposit(decimal amountToDeposit)
     {
-        balance += amountToDeposit;
-    }
-
-    public void Withdraw(decimal amountToWithdraw)
-    {
-        if (amountToWithdraw > balance)
+        if (amountToDeposit <= 0)
         {
-            throw new Exception("Insufficient funds- will overdraft");
-        } else
-        {
-            balance -= amountToWithdraw;
+            throw new InvalidTransactionAmountException();
         }
+        balance += amountToDeposit;
     }
 
     public decimal GetBalance()
     {
         return balance;
+    }
+
+    public void Withdraw(decimal amountToWithdraw)
+    {
+        if (amountToWithdraw <= 0) // These are sometimes called "Guard" clauses.
+        {
+            throw new InvalidTransactionAmountException();
+        }
+        if (amountToWithdraw <= balance)
+        {
+            balance -= amountToWithdraw;
+        } else
+        {
+            throw new AccountOverdraftException();
+        }
     }
 }

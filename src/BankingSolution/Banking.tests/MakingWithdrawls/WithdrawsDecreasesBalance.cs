@@ -2,6 +2,8 @@
 
 using Banking.Domain;
 namespace Banking.tests.MakingWithdrawls;
+
+[Trait("Category", "Unit")]
 public class WithdrawsDecreasesBalance
 {
     [Theory]
@@ -17,5 +19,30 @@ public class WithdrawsDecreasesBalance
         account.Withdraw(amountToWithdraw);
 
         Assert.Equal(openingBalance - amountToWithdraw, account.GetBalance());
+    }
+
+    [Fact]
+    public void MayWithdrawFullBalance()
+    {
+        var account = new BankAccount();
+        var openingBalance = account.GetBalance();
+
+        account.Withdraw(openingBalance);
+
+        Assert.Equal(0, account.GetBalance());
+    }
+
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(0)]
+    public void InvalidAmountCannotBeWithdrawn(decimal amountToWithdraw)
+    {
+        var account = new BankAccount();
+        var openingBalance = account.GetBalance();
+
+        Assert.Throws<InvalidTransactionAmountException>(() => account.Deposit(amountToWithdraw));
+
+        Assert.Equal(openingBalance, account.GetBalance());
+
     }
 }
