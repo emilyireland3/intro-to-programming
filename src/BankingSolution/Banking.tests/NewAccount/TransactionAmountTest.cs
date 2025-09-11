@@ -19,4 +19,10 @@ public class TransactionAmountTests
     {
         Assert.Throws<InvalidTransactionAmountException>(() => new TransactionAmount(amount));
     }
+
+    [Fact]
+    public void TransactionAboveLimitThrow()
+    {
+        Assert.Throws<TransactionAmountAboveLimitException>(() => new TransactionAmount(10_000.01M));
+    }
 }

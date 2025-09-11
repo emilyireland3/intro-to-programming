@@ -6,6 +6,9 @@ namespace Banking.Tests.MakingDeposits;
 [Trait("Category", "Unit")]
 public class DepositsIncreaseBalance
 {
+    
+    // DRY - MOIST - RUG (Repeat until good)
+
     [Theory]
     [InlineData(110.10)]
     [InlineData(0.25)]

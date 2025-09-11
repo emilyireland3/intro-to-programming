@@ -9,10 +9,11 @@ public struct TransactionAmount
         {
             throw new InvalidTransactionAmountException();
         }
-        else
+        if (amount > 10_000M)
         {
-            _amount = amount;
+            throw new TransactionAmountAboveLimitException();
         }
+            _amount = amount;
     }
     // this allows an "implict" conversion from TransactionAmount to a decimal.
     // so: decimal x = t; 
