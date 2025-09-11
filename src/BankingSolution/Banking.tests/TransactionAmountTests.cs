@@ -1,4 +1,4 @@
-﻿using Banking.Domain;
+﻿
 
 namespace Banking.Tests;
 public class TransactionAmountTests
@@ -21,7 +21,7 @@ public class TransactionAmountTests
     }
 
     [Fact]
-    public void TransactionAboveLimitThrow()
+    public void TransactionsAboveLimitThrow()
     {
         Assert.Throws<TransactionAmountAboveLimitException>(() => new TransactionAmount(10_000.01M));
     }

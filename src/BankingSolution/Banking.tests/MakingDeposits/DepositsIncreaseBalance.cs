@@ -1,13 +1,12 @@
 ﻿
 
-using Banking.Domain;
+
+using Banking.Tests.TestDoubles;
 
 namespace Banking.Tests.MakingDeposits;
-[Trait("Category", "Unit")]
+    [Trait("Category", "Unit")]
 public class DepositsIncreaseBalance
 {
-    
-    // DRY - MOIST - RUG (Repeat until good)
 
     [Theory]
     [InlineData(110.10)]
@@ -16,27 +15,14 @@ public class DepositsIncreaseBalance
     public void MakingADeposit(decimal amountToDeposit)
     {
         // Given 
-        var account = new BankAccount();
+        var account = new BankAccount(new DummyBonusCalculator());
         var openingBalance = account.GetBalance();
-
+     
 
         account.Deposit(amountToDeposit);
 
         Assert.Equal(openingBalance + amountToDeposit, account.GetBalance());
     }
 
-    // dont need anymore
-
-    //[Theory]
-    //[InlineData(-1)]
-    //[InlineData(0)]
-    //public void InvalidAmountsCannotBeDeposited(decimal amountToDeposit)
-    //{
-    //    var account = new BankAccount();
-    //    var openingBalance = account.GetBalance();
-
-    //    Assert.Throws<InvalidTransactionAmountException>(() => account.Deposit(amountToDeposit));
-
-    //    Assert.Equal(openingBalance, account.GetBalance());
-    //}
+  
 }
