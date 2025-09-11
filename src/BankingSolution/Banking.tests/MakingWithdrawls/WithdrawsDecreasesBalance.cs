@@ -32,17 +32,18 @@ public class WithdrawsDecreasesBalance
         Assert.Equal(0, account.GetBalance());
     }
 
-    [Theory]
-    [InlineData(-1)]
-    [InlineData(0)]
-    public void InvalidAmountCannotBeWithdrawn(decimal amountToWithdraw)
-    {
-        var account = new BankAccount();
-        var openingBalance = account.GetBalance();
+    // dont need anymore 
+    //[Theory]
+    //[InlineData(-1)]
+    //[InlineData(0)]
+    //public void InvalidAmountCannotBeWithdrawn(decimal amountToWithdraw)
+    //{
+    //    var account = new BankAccount();
+    //    var openingBalance = account.GetBalance();
 
-        Assert.Throws<InvalidTransactionAmountException>(() => account.Deposit(amountToWithdraw));
+    //    Assert.Throws<InvalidTransactionAmountException>(() => account.Deposit(amountToWithdraw));
 
-        Assert.Equal(openingBalance, account.GetBalance());
+    //    Assert.Equal(openingBalance, account.GetBalance());
 
-    }
+    //}
 }

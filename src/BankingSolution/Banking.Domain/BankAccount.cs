@@ -9,12 +9,9 @@ namespace Banking.Domain;
 public class BankAccount
 {
     private decimal balance = 5000M; // Fields (class-level variables, instance variables)
-    public void Deposit(decimal amountToDeposit)
+    public void Deposit(TransactionAmount amountToDeposit)  // implicitly converts to decimal
     {
-        if (amountToDeposit <= 0)
-        {
-            throw new InvalidTransactionAmountException();
-        }
+        
         balance += amountToDeposit;
     }
 
@@ -23,18 +20,32 @@ public class BankAccount
         return balance;
     }
 
-    public void Withdraw(decimal amountToWithdraw)
+    //public void Withdraw(decimal amountToWithdraw)
+    //{
+    //    if (amountToWithdraw <= 0) // These are sometimes called "Guard" clauses.
+    //    {
+    //        throw new InvalidTransactionAmountException();
+    //    }
+    //    if (amountToWithdraw <= balance)
+    //    {
+    //        balance -= amountToWithdraw;
+    //    } else
+    //    {
+    //        throw new AccountOverdraftException();
+    //    }
+    //}
+
+    public void Withdraw(TransactionAmount amountToWithdraw)
     {
-        if (amountToWithdraw <= 0) // These are sometimes called "Guard" clauses.
-        {
-            throw new InvalidTransactionAmountException();
-        }
         if (amountToWithdraw <= balance)
         {
             balance -= amountToWithdraw;
-        } else
+        }
+        else
         {
             throw new AccountOverdraftException();
         }
     }
+
+
 }
