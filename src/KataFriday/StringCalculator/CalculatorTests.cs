@@ -3,10 +3,20 @@
 namespace StringCalculator;
 public class CalculatorTests
 {
+    Calculator calculator;
+
+    public CalculatorTests()
+    {
+        // Tests treat each method as independent so need to
+        // create a new instance of Calculator for each test
+        // ... for each [Fact} or [Theory --> inline], a new instance
+        // of this class is created and the constructor will be called again 
+        calculator = new Calculator();
+    }
+
     [Fact]
     public void EmptyStringReturnsZero()
     {
-        var calculator = new Calculator();
 
         var result = calculator.Add("");
 
@@ -19,7 +29,6 @@ public class CalculatorTests
     [InlineData("78", 78)]
     public void CanAddSingleInteger(string value, int expected)
     {
-        var calculator = new Calculator();
         var result = calculator.Add(value);
         Assert.Equal(expected, result);
     }
@@ -30,7 +39,6 @@ public class CalculatorTests
     [InlineData("78,22", 100)]
     public void CanAddTwoIntegers(string value, int expected)
     {
-        var calculator = new Calculator();
         var result = calculator.Add(value);
         Assert.Equal(expected, result);
     }
@@ -41,7 +49,6 @@ public class CalculatorTests
     [InlineData("78,22,15,30,55", 200)]
     public void CanAddSeveralIntegers(string value, int expected)
     {
-        var calculator = new Calculator();
         var result = calculator.Add(value);
         Assert.Equal(expected, result);
     }
@@ -53,7 +60,6 @@ public class CalculatorTests
     [InlineData("78,22,15,30\n55", 200)]
     public void CanAddSeveralIntegersWNewLineAndComma(string value, int expected)
     {
-        var calculator = new Calculator();
         var result = calculator.Add(value);
         Assert.Equal(expected, result);
     }
@@ -65,7 +71,6 @@ public class CalculatorTests
     [InlineData("//;\n1;2,3\n24", 30)]
     public void CanAddSeveralIntegersWAnyDelimeter(string value, int expected)
     {
-        var calculator = new Calculator();
         var result = calculator.Add(value);
         Assert.Equal(expected, result);
     }
@@ -76,7 +81,6 @@ public class CalculatorTests
     [InlineData("//;\n-1;2;-3", "Negatives not allowed")]
     public void ThrowsExceptionForNegativeNumbers(string value, string expectedMessage)
     {
-        var calculator = new Calculator();
         var exception = Assert.Throws<ArgumentException>(() => calculator.Add(value));
         Assert.Equal(expectedMessage, exception.Message);
     }

@@ -3,10 +3,20 @@ namespace StringCalculator;
 
 public class CalculatorTests
 {
+    Calculator calculator;
+
+    public CalculatorTests()
+    {
+        // Tests treat test classes differently than normal.
+       // for EACH [Fact] or each [Theory -> InlineData] a new instance of this class will be created.
+       // and the constructor will be called again.
+        calculator = new Calculator(Substitute.For<ILogger>(),
+            Substitute.For<IProvideFailureNotifications>()); // A test double, a substitute, that is DUMB. It is just so we don't get NRE.
+    }
     [Fact]
     public void EmptyStringReturnsZero()
     {
-        var calculator = new Calculator();
+       
 
         var result = calculator.Add("");
 
@@ -19,7 +29,7 @@ public class CalculatorTests
     [InlineData("319", 319)]
     public void SingleNumberReturnsValue(string input, int expected)
     {
-        var calculator = new Calculator();
+      
         var result = calculator.Add(input);
         Assert.Equal(expected, result);
     }
@@ -30,7 +40,7 @@ public class CalculatorTests
     [InlineData("100,250", 350)]
     public void TwoNumbersCommaDelimitedReturnsSum(string input, int expected)
     {
-        var calculator = new Calculator();
+       
         var result = calculator.Add(input);
         Assert.Equal(expected, result);
     }
@@ -39,7 +49,7 @@ public class CalculatorTests
     [InlineData("10,20,3,40", 73)]
     public void ArbitraryLength(string input, int expected)
     {
-        var calculator = new Calculator();
+       
         var result = calculator.Add(input);
         Assert.Equal(expected, result);
     }
@@ -49,7 +59,7 @@ public class CalculatorTests
     [InlineData("10,20\n3,40", 73)]
     public void MixedDelimeters(string input, int expected)
     {
-        var calculator = new Calculator();
+      
         var result = calculator.Add(input);
         Assert.Equal(expected, result);
     }
@@ -63,7 +73,7 @@ public class CalculatorTests
 
     public void CustomDelimeters(string input, int expected)
     {
-        var calculator = new Calculator();
+       
         var result = calculator.Add(input);
         Assert.Equal(expected, result);
     }
@@ -73,7 +83,7 @@ public class CalculatorTests
     [InlineData("//;\n10;-20;3;-40", "-20, -40")]
     public void ThrowsOnNegativeNumbers(string input, string negatives)
     {
-        var calculator = new Calculator();
+        
         var exception = Assert.Throws<NegativeNumbersNotAllowedException>(() => calculator.Add(input));
         Assert.Equal(negatives, exception.Message);
     }
@@ -85,7 +95,7 @@ public class CalculatorTests
     [InlineData("//;\n1000;1001;2", 1002)]
     public void NumbersGreaterThan1000AreIgnored(string input, int expected)
     {
-        var calculator = new Calculator();
+        
         var result = calculator.Add(input);
         Assert.Equal(expected, result);
     }
