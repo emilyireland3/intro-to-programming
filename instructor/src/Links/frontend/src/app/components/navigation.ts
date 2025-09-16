@@ -1,11 +1,17 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  signal,
+  computed,
+} from '@angular/core';
 import { NavLink } from './types';
 import { NavBarLink } from './nav-link';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-navigation',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NavBarLink],
+  imports: [NavBarLink, RouterLink],
   template: `
     <div class="navbar bg-base-100 shadow-sm">
       <div class="navbar-start">
@@ -31,20 +37,29 @@ import { NavBarLink } from './nav-link';
             class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
             @for (link of links(); track link.href) {
-              <app-nav-link [link]="link" />
+              <app-nav-link
+                (linkClicked)="onLinkClicked($event)"
+                [link]="link"
+              />
             }
           </ul>
         </div>
-        <a class="btn btn-ghost text-xl">Into to Programming</a>
+
+        <a routerLink="/" class="btn btn-ghost text-xl">Into to Programming</a>
       </div>
       <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
           @for (link of links(); track link.href) {
-            <app-nav-link [link]="link" />
+            <app-nav-link
+              [decoration]="getDecoration()"
+              (linkClicked)="onLinkClicked($event)"
+              [link]="link"
+            />
           }
         </ul>
       </div>
       <div class="navbar-end">
+        <span>(You are at {{ current() }})</span>
         <a class="btn">Button</a>
       </div>
     </div>
@@ -52,6 +67,12 @@ import { NavBarLink } from './nav-link';
   styles: ``,
 })
 export class Navigation {
+  current = signal('');
+
+  getDecoration = computed(() => (this.current() === 'Home' ? '*' : ''));
+  onLinkClicked(path: string) {
+    this.current.set(path);
+  }
   links = signal<NavLink[]>([
     {
       href: '/',
@@ -63,7 +84,12 @@ export class Navigation {
     },
     {
       href: '/links',
+
       label: 'Links',
+    },
+    {
+      href: '/support',
+      label: 'Support',
     },
   ]);
 }

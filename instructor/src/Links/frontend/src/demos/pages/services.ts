@@ -1,12 +1,10 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-demos-services',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
-  template: ` <div class="prose">
-    <h2>Intro to Programming - Angular Sample Application</h2>
-  </div>`,
+  template: ` <p>Service Demos Here</p> `,
   styles: ``,
 })
-export class Home {}
+export class Services {}
