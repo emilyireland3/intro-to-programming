@@ -1,5 +1,6 @@
 ﻿
 
+using System.ComponentModel.DataAnnotations;
 using Marten;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,29 +9,31 @@ namespace Links.Api.Links;
 
 // When a POST comes in for "/links", create a instance of this class, oh Kestral Web Server
 
-public class LinksController(IDocumentSession session) : ControllerBase
+[ApiController]
+public class LinksController(IDocumentSession session, IManagerUserIdentity userIdentityManager) : ControllerBase
 {
-    // "Flag - a "Marker" on this method, that the API will read and know this is where
-    // POSTs to "/links" should be directed.
 
-    //private IDocumentSession session;
-
-    //public LinksController(IDocumentSession session)
-    //{
-    //    this.session = session;
-    //}
+    [HttpGet("/links")]
+    public async Task<ActionResult> GetAllLinksAsync()
+    {
+        var response = await session.Query<CreateLinkResponse>().ToListAsync();
+        return Ok(response);
+    }
 
     [HttpPost("/links")]
     public async Task<ActionResult> AddALink(
         [FromBody] CreateLinkRequest request
         )
     {
+        string userSubject = await userIdentityManager.GetSubjectAsync();
+
         var response = new CreateLinkResponse {
             Id = Guid.NewGuid(),
             Href = request.Href,
             Description = request.Description,
-            AddedBy = "joe@aol.com",
-            Created = DateTimeOffset.Now
+            AddedBy = userSubject,
+            Created = DateTimeOffset.Now,
+            Title = request.Title,
         };
         session.Store(response);
         await session.SaveChangesAsync(); 
@@ -66,18 +69,15 @@ public class LinksController(IDocumentSession session) : ControllerBase
 
 public record CreateLinkRequest
 {
+    [Required] // "Declarative Programming"
     public string Href { get; set; } = string.Empty;
+    [Required]
     public string Description { get; set; } = string.Empty;
+    [Required, MaxLength(100)]
+    public string Title { get; set;} = string.Empty;
 
 }
 
-/*{
-  "id": "38983989839839839893",
-  "href": "https://typescriptlang.org",
-  "description": "The TypeScript Website",
-  "addedBy": "jeff@hypertheory.com",
-  "created": "some datetime"
-}*/
 
 
 public record CreateLinkResponse
@@ -88,4 +88,5 @@ public record CreateLinkResponse
     public string Description { get; set; } = string.Empty;
     public string AddedBy { get; set; } = string.Empty;
     public DateTimeOffset Created { get; set; }
+    public string Title { get; set; } = string.Empty;
 }
